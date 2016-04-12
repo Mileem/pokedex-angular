@@ -1,23 +1,35 @@
 <div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
+  <div ng-if='pokemon === undefined'>
+    <h1>Hello </h1>
+    <img src="http://vignette2.wikia.nocookie.net/pokemon/images/8/84/Professor_Oak_XY.png/revision/latest/scale-to-width-down/150?cb=20131221014829" width="20%">
+    <div>
+      <p>Hi ! I'm profesor Oak ! Choose a pokemon for know more about it</p>
+    </div>
+  </div>
+  <div ng-if='pokemon !== undefined'>
+    <h1>{{ pokemon.name }}</h1>
+    <img ng-src="{{pokemon.picture}}" width="40%">
+    <div ng-repeat="type in pokemon.types">
+      <span class="label label-info">{{ type.type.name }}</span>
+    </div>
+  </div>
 </div>
 
 <div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
+  <h4>Select a pokemon by number</h4>
+  <form ng-submit="getPokemon(pokemon.id)">
+    Enter number of pokemon:
+    <input type="number" ng-model="pokemon.id" name="text" />
+    <input type="submit" id="submit" value="Submit" />
+  </form>
 
-  <h4>Angular</h4>
+  <h4>Select a pokemon by name</h4>
   <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
+    <ui-select ng-model="search.name" theme="bootstrap" on-select="getPokemon(search.name.name)">
+        <ui-select-match placeholder="Select or search a pokemon name in the Pokedex...">{{search.name.name}}</ui-select-match>
+        <ui-select-choices repeat="pokemon in pokemons.results | filter: $select.search | limitTo: 25">
+            {{ pokemon.name }}
+        </ui-select-choices>
+    </ui-select>
   </p>
-
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
 </div>
