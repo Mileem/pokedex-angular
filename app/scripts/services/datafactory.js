@@ -19,6 +19,9 @@ angular.module('pokedexAngularApp')
       return $http.get(urlBase + '/pokemon/?limit=811&offset=0');
     };
 
-    // Public API here
+    dataFactory.getPokemon = function (namePokemon) {
+      return $http.get(urlBase + '/pokemon/' + namePokemon);
+    };
+
     return dataFactory;
   });
