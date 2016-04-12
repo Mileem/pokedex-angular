@@ -21,6 +21,27 @@ angular.module('pokedexAngularApp')
       });
     }
 
+    $scope.getPokemon = function (pokemon) {
+      console.log(pokemon);
+      dataFactory.getPokemon(pokemon)
+      .then(function (response) {
+        $scope.pokemon = response.data;
+        $scope.pokemon.picture = 'http://assets.pokemon.com/assets/cms2/img/pokedex/full/'+ getNumberOfPokemon($scope.pokemon.id) + '.png';
+      }, function (error) {
+        $scope.status = 'Unable to load '+ pokemon +' pokemon data ' + error.message;
+      });
+    };
+
+    function getNumberOfPokemon(id) {
+      var numberPokemon = id;
+      if(numberPokemon < 10) {
+        numberPokemon = '00' + numberPokemon;
+      } else if (numberPokemon < 100) {
+        numberPokemon = '0' + numberPokemon;
+      }
+      return numberPokemon;
+    }
+
 
     getPokemons();
   });
